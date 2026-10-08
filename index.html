@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MAMS Student Attendance</title>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f4f7f9;
+      color: #222;
+    }
+
+    .container {
+      max-width: 550px;
+      margin: auto;
+    }
+
+    .header {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      color: #666;
+    }
+
+    .card {
+      background: white;
+      padding: 18px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .arrival {
+      background: #198754;
+      color: white;
+    }
+
+    .pickup {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .selected {
+      outline: 4px solid rgba(0,0,0,0.15);
+    }
+
+    .secondary {
+      background: #555;
+      color: white;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #reader {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #status {
+      padding: 14px;
+      border-radius: 9px;
+      background: #f0f0f0;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .success {
+      background: #d1e7dd !important;
+      color: #0f5132;
+    }
+
+    .error {
+      background: #f8d7da !important;
+      color: #842029;
+    }
+
+    .student {
+      display: none;
+      text-align: center;
+    }
+
+    .student-name {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .student-details {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .manual {
+      margin-top: 15px;
+    }
+
+    .small {
+      color: #777;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>MAMS INTERNATIONAL SCHOOL</h1>
+    <div class="subtitle">Student Attendance</div>
+  </div>
+
+
+  <!-- STAFF -->
+
+  <div class="card">
+
+    <label for="staffSelect">
+      Staff Member
+    </label>
+
+    <select id="staffSelect">
+      <option value="">
+        Loading staff...
+      </option>
+    </select>
+
+    <button
+      class="secondary"
+      onclick="changeStaff()"
+    >
+      Change Staff
+    </button>
+
+  </div>
+
+
+  <!-- ACTION -->
+
+  <div class="card">
+
+    <label>
+      Attendance Action
+    </label>
+
+    <div class="action-buttons">
+
+      <button
+        id="arrivalBtn"
+        class="arrival"
+        onclick="selectAction('ARRIVAL')"
+      >
+        ARRIVAL
+      </button>
+
+      <button
+        id="pickupBtn"
+        class="pickup"
+        onclick="selectAction('PICKUP')"
+      >
+        PICKUP
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- CAMERA -->
+
+  <div class="card">
+
+    <div id="status">
+      Select your name and choose ARRIVAL or PICKUP.
+    </div>
+
+    <div id="reader"></div>
+
+  </div>
+
+
+  <!-- STUDENT RESULT -->
+
+  <div
+    id="studentCard"
+    class="card student"
+  >
+
+    <div
+      class="student-name"
+      id="studentName"
+    ></div>
+
+    <div class="student-details">
+
+      Student ID:
+      <strong id="studentId"></strong>
+
+      <br>
+
+      Class:
+      <strong id="studentClass"></strong>
+
+      <br><br>
+
+      <strong id="attendanceMessage"></strong>
+
+    </div>
+
+  </div>
+
+
+  <!-- MANUAL BACKUP -->
+
+  <div class="card manual">
+
+    <label>
+      Manual Student ID
+    </label>
+
+    <input
+      id="manualStudentId"
+      placeholder="Example: MAMS53"
+      autocomplete="off"
+    >
+
+    <button
+      class="secondary"
+      onclick="submitManualStudent()"
+    >
+      Record Student ID
+    </button>
+
+    <div class="small">
+      Use this only if the QR code cannot be scanned.
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/*
+====================================================
+MAMS WEB APP URL
+====================================================
+*/
+
+const WEB_APP_URL =
+"https://script.google.com/macros/s/AKfycbzVKdtpW6um7khuOLzJ7KOLiKgUPxZS3uCYTYT_RPhqR6MZoxxrE_ZoNr249R-BPupxbg/exec";
+
+
+let selectedStaffId = "";
+let selectedAction = "";
+let scanner = null;
+let scanLocked = false;
+
+
+/*
+====================================================
+STATUS
+====================================================
+*/
+
+function showStatus(message, type) {
+
+  const status =
+    document.getElementById("status");
+
+  status.textContent = message;
+
+  status.className = "";
+
+  if (type === "success") {
+    status.classList.add("success");
+  }
+
+  if (type === "error") {
+    status.classList.add("error");
+  }
+}
+
+
+/*
+====================================================
+JSONP HELPER
+====================================================
+*/
+
+function jsonp(url, timeoutMs) {
+
+  return new Promise(
+    function(resolve, reject) {
+
+      const callbackName =
+        "mamsCallback_" +
+        Date.now() +
+        "_" +
+        Math.floor(
+          Math.random() * 100000
+        );
+
+      const script =
+        document.createElement("script");
+
+      let finished = false;
+
+      const timeout =
+        setTimeout(
+          function() {
+
+            if (finished) {
+              return;
+            }
+
+            finished = true;
+
+            cleanup();
+
+            reject(
+              new Error(
+                "Request timed out."
+              )
+            );
+
+          },
+          timeoutMs || 15000
+        );
+
+
+      function cleanup() {
+
+        clearTimeout(timeout);
+
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+
+        try {
+          delete window[callbackName];
+        } catch (e) {
+          window[callbackName] =
+            undefined;
+        }
+      }
+
+
+      window[callbackName] =
+        function(data) {
+
+          if (finished) {
+            return;
+          }
+
+          finished = true;
+
+          cleanup();
+
+          resolve(data);
+
+        };
+
+
+      script.onerror =
+        function() {
+
+          if (finished) {
+            return;
+          }
+
+          finished = true;
+
+          cleanup();
+
+          reject(
+            new Error(
+              "Could not connect to MAMS server."
+            )
+          );
+
+        };
+
+
+      const separator =
+        url.includes("?")
+          ? "&"
+          : "?";
+
+
+      script.src =
+        url +
+        separator +
+        "callback=" +
+        encodeURIComponent(
+          callbackName
+        );
+
+
+      document.body.appendChild(
+        script
+      );
+
+    }
+  );
+}
+
+
+/*
+====================================================
+LOAD STAFF
+====================================================
+*/
+
+async function loadStaff() {
+
+  const select =
+    document.getElementById(
+      "staffSelect"
+    );
+
+  try {
+
+    select.innerHTML =
+      '<option value="">Loading staff...</option>';
+
+
+    const data =
+      await jsonp(
+        WEB_APP_URL +
+        "?scannerStaff=1",
+        15000
+      );
+
+
+    console.log(
+      "Staff response:",
+      data
+    );
+
+
+    if (!data.ok) {
+
+      throw new Error(
+        data.message ||
+        "Could not load staff."
+      );
+    }
+
+
+    select.innerHTML =
+      '<option value="">Select your name</option>';
+
+
+    data.staff.forEach(
+      function(staff) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+        option.value =
+          staff.staffId;
+
+        option.textContent =
+          staff.staffName +
+          " — " +
+          staff.role;
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    const savedStaff =
+      localStorage.getItem(
+        "mamsStaffId"
+      );
+
+
+    if (savedStaff) {
+
+      const exists =
+        data.staff.some(
+          function(staff) {
+
+            return (
+              staff.staffId ===
+              savedStaff
+            );
+
+          }
+        );
+
+
+      if (exists) {
+
+        select.value =
+          savedStaff;
+
+        selectedStaffId =
+          savedStaff;
+
+      }
+
+    }
+
+
+    if (selectedStaffId) {
+
+      showStatus(
+        "Welcome back. Choose ARRIVAL or PICKUP."
+      );
+
+    } else {
+
+      showStatus(
+        "Select your name and choose ARRIVAL or PICKUP."
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    select.innerHTML =
+      '<option value="">Unable to load staff</option>';
+
+
+    showStatus(
+      "Could not load staff: " +
+      error.message,
+      "error"
+    );
+
+  }
+}
+
+
+/*
+====================================================
+STAFF SELECTION
+====================================================
+*/
+
+document
+  .getElementById("staffSelect")
+  .addEventListener(
+    "change",
+    function() {
+
+      selectedStaffId =
+        this.value;
+
+
+      if (selectedStaffId) {
+
+        localStorage.setItem(
+          "mamsStaffId",
+          selectedStaffId
+        );
+
+
+        showStatus(
+          "Staff selected. Now choose ARRIVAL or PICKUP."
+        );
+
+      } else {
+
+        localStorage.removeItem(
+          "mamsStaffId"
+        );
+
+      }
+
+    }
+  );
+
+
+function changeStaff() {
+
+  localStorage.removeItem(
+    "mamsStaffId"
+  );
+
+  selectedStaffId = "";
+
+  document.getElementById(
+    "staffSelect"
+  ).value = "";
+
+  showStatus(
+    "Please select the new staff member."
+  );
+}
+
+
+/*
+====================================================
+ACTION
+====================================================
+*/
+
+function selectAction(action) {
+
+  if (!selectedStaffId) {
+
+    showStatus(
+      "Please select your name first.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  selectedAction =
+    action;
+
+
+  document
+    .getElementById("arrivalBtn")
+    .classList.remove("selected");
+
+
+  document
+    .getElementById("pickupBtn")
+    .classList.remove("selected");
+
+
+  if (action === "ARRIVAL") {
+
+    document
+      .getElementById("arrivalBtn")
+      .classList.add("selected");
+
+  } else {
+
+    document
+      .getElementById("pickupBtn")
+      .classList.add("selected");
+
+  }
+
+
+  showStatus(
+    action +
+    " selected. Point the camera at the student's QR code."
+  );
+
+
+  startScanner();
+}
+
+
+/*
+====================================================
+START SCANNER
+====================================================
+*/
+
+async function startScanner() {
+
+  if (!selectedAction) {
+    return;
+  }
+
+
+  if (scanner) {
+
+    try {
+      await scanner.stop();
+    } catch (e) {
+      console.log(e);
+    }
+
+    scanner = null;
+  }
+
+
+  scanLocked = false;
+
+
+  scanner =
+    new Html5Qrcode(
+      "reader"
+    );
+
+
+  try {
+
+    await scanner.start(
+      {
+        facingMode: "environment"
+      },
+      {
+        fps: 10,
+        qrbox: {
+          width: 250,
+          height: 250
+        }
+      },
+      onScanSuccess,
+      function() {}
+    );
+
+
+    showStatus(
+      "Camera ready — scan the student's QR code."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Scanner error:",
+      error
+    );
+
+
+    showStatus(
+      "Camera could not start: " +
+      error.message,
+      "error"
+    );
+
+  }
+}
+
+
+/*
+====================================================
+QR DETECTED
+====================================================
+*/
+
+async function onScanSuccess(
+  decodedText
+) {
+
+  if (scanLocked) {
+    return;
+  }
+
+
+  scanLocked = true;
+
+
+  console.log(
+    "QR detected:",
+    decodedText
+  );
+
+
+  showStatus(
+    "QR detected. Recording attendance..."
+  );
+
+
+  if (scanner) {
+
+    try {
+      await scanner.stop();
+    } catch (e) {
+      console.log(e);
+    }
+
+  }
+
+
+  await recordAttendance(
+    decodedText
+  );
+}
+
+
+/*
+====================================================
+RECORD ATTENDANCE
+====================================================
+*/
+
+async function recordAttendance(
+  qrValue
+) {
+
+  try {
+
+    if (!selectedStaffId) {
+
+      throw new Error(
+        "Staff member is not selected."
+      );
+
+    }
+
+
+    if (!selectedAction) {
+
+      throw new Error(
+        "ARRIVAL or PICKUP has not been selected."
+      );
+
+    }
+
+
+    const url =
+      WEB_APP_URL +
+      "?attendanceScan=1" +
+      "&qrValue=" +
+      encodeURIComponent(
+        qrValue
+      ) +
+      "&action=" +
+      encodeURIComponent(
+        selectedAction
+      ) +
+      "&staffId=" +
+      encodeURIComponent(
+        selectedStaffId
+      );
+
+
+    console.log(
+      "Attendance request:",
+      url
+    );
+
+
+    const data =
+      await jsonp(
+        url,
+        20000
+      );
+
+
+    console.log(
+      "Attendance response:",
+      data
+    );
+
+
+    if (!data.ok) {
+
+      throw new Error(
+        data.message ||
+        "Attendance could not be recorded."
+      );
+
+    }
+
+
+    showStudentResult(
+      data
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    showStatus(
+      "Attendance error: " +
+      error.message,
+      "error"
+    );
+
+
+    scanLocked = false;
+
+  }
+}
+
+
+/*
+====================================================
+SHOW RESULT
+====================================================
+*/
+
+function showStudentResult(
+  data
+) {
+
+  const student =
+    data.student || {};
+
+
+  document.getElementById(
+    "studentName"
+  ).textContent =
+    student.studentName ||
+    student.childName ||
+    "Student";
+
+
+  document.getElementById(
+    "studentId"
+  ).textContent =
+    student.studentId ||
+    "";
+
+
+  document.getElementById(
+    "studentClass"
+  ).textContent =
+    student.className ||
+    "";
+
+
+  document.getElementById(
+    "attendanceMessage"
+  ).textContent =
+    data.message ||
+    "Attendance recorded successfully.";
+
+
+  document.getElementById(
+    "studentCard"
+  ).style.display =
+    "block";
+
+
+  showStatus(
+    "✓ " +
+    (
+      data.message ||
+      "Attendance recorded successfully."
+    ),
+    "success"
+  );
+
+
+  setTimeout(
+    function() {
+
+      document.getElementById(
+        "studentCard"
+      ).style.display =
+        "none";
+
+
+      scanLocked = false;
+
+
+      startScanner();
+
+    },
+    2500
+  );
+}
+
+
+/*
+====================================================
+MANUAL STUDENT ID
+====================================================
+*/
+
+async function submitManualStudent() {
+
+  const input =
+    document.getElementById(
+      "manualStudentId"
+    );
+
+
+  const value =
+    input.value.trim();
+
+
+  if (!value) {
+
+    showStatus(
+      "Enter a Student ID first.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!selectedStaffId) {
+
+    showStatus(
+      "Please select your name first.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!selectedAction) {
+
+    showStatus(
+      "Please select ARRIVAL or PICKUP.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  showStatus(
+    "Recording attendance..."
+  );
+
+
+  await recordAttendance(
+    value
+  );
+
+
+  input.value = "";
+
+}
+
+
+/*
+====================================================
+START PAGE
+====================================================
+*/
+
+window.addEventListener(
+  "load",
+  function() {
+
+    loadStaff();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
