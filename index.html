@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>MAMS International School — Attendance</title>
 
   <script src="https://unpkg.com/html5-qrcode"></script>
@@ -20,10 +19,7 @@
       color: #243247;
     }
 
-    .container {
-      max-width: 550px;
-      margin: auto;
-    }
+    .container { max-width: 550px; margin: auto; }
 
     .header {
       background: #102b46;
@@ -34,16 +30,8 @@
       margin-bottom: 16px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 22px;
-      line-height: 1.4;
-    }
-
-    .subtitle {
-      margin-top: 7px;
-      color: #c8dce8;
-    }
+    h1 { margin: 0; font-size: 22px; line-height: 1.4; }
+    .subtitle { margin-top: 7px; color: #c8dce8; }
 
     .card {
       background: white;
@@ -78,10 +66,7 @@
       cursor: pointer;
     }
 
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
 
     .action-buttons {
       display: flex;
@@ -89,20 +74,9 @@
       margin-top: 10px;
     }
 
-    .action-buttons button {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .arrival {
-      background: #198754;
-      color: white;
-    }
-
-    .pickup {
-      background: #0d6efd;
-      color: white;
-    }
+    .action-buttons button { flex: 1; min-width: 0; }
+    .arrival { background: #198754; color: white; }
+    .pickup { background: #0d6efd; color: white; }
 
     .selected {
       outline: 4px solid rgba(16, 43, 70, 0.18);
@@ -116,11 +90,7 @@
       margin-top: 10px;
     }
 
-    #reader {
-      width: 100%;
-      margin-top: 12px;
-      overflow: hidden;
-    }
+    #reader { width: 100%; margin-top: 12px; overflow: hidden; }
 
     #status {
       padding: 14px;
@@ -133,26 +103,11 @@
       overflow-wrap: anywhere;
     }
 
-    .success {
-      background: #d1e7dd !important;
-      color: #0f5132 !important;
-    }
+    .success { background: #d1e7dd !important; color: #0f5132 !important; }
+    .error { background: #f8d7da !important; color: #842029 !important; }
 
-    .error {
-      background: #f8d7da !important;
-      color: #842029 !important;
-    }
-
-    .student {
-      display: none;
-      text-align: center;
-    }
-
-    .student-name {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+    .student { display: none; text-align: center; }
+    .student-name { font-size: 22px; font-weight: bold; margin-bottom: 10px; }
 
     .student-details {
       color: #475569;
@@ -160,9 +115,7 @@
       overflow-wrap: anywhere;
     }
 
-    .manual {
-      margin-top: 15px;
-    }
+    .manual { margin-top: 15px; }
 
     .small {
       color: #64748b;
@@ -171,10 +124,7 @@
       margin-top: 9px;
     }
 
-    .section-title {
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
+    .section-title { font-weight: bold; margin-bottom: 12px; }
 
     .badge {
       display: inline-block;
@@ -185,6 +135,29 @@
       font-size: 12px;
       margin-top: 8px;
     }
+
+    .search-result {
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .search-result-name {
+      font-weight: bold;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .search-result-details {
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+    }
+
+    #studentSearchResults { margin-top: 8px; }
 
     @media (max-width: 380px) {
       body { padding: 10px; }
@@ -208,7 +181,6 @@
   <!-- STAFF SELECTION -->
   <section class="card">
     <label for="staffSelect">Staff member</label>
-
     <select id="staffSelect">
       <option value="">Loading staff...</option>
     </select>
@@ -225,15 +197,9 @@
   <!-- ARRIVAL / PICKUP -->
   <section class="card">
     <div class="section-title">Attendance action</div>
-
     <div class="action-buttons">
-      <button type="button" id="arrivalBtn" class="arrival">
-        ARRIVAL
-      </button>
-
-      <button type="button" id="pickupBtn" class="pickup">
-        PICKUP
-      </button>
+      <button type="button" id="arrivalBtn" class="arrival">ARRIVAL</button>
+      <button type="button" id="pickupBtn" class="pickup">PICKUP</button>
     </div>
   </section>
 
@@ -247,27 +213,24 @@
   <!-- QR CAMERA -->
   <section class="card">
     <div class="section-title">Scan student QR code</div>
-
     <div id="reader"></div>
 
     <button type="button" class="secondary" id="startCameraBtn">
       Start camera
     </button>
-
     <button type="button" class="secondary" id="stopCameraBtn">
       Stop camera
     </button>
 
     <div class="small">
       Select your name and choose ARRIVAL or PICKUP before scanning.
-      If the camera cannot start, use the manual entry section below.
+      If the camera cannot start, use manual ID entry or student-name search.
     </div>
   </section>
 
   <!-- STUDENT RESULT -->
   <section id="studentCard" class="card student">
     <div class="student-name" id="studentName"></div>
-
     <div class="student-details">
       Student ID: <strong id="studentId"></strong>
       <br>
@@ -277,10 +240,9 @@
     </div>
   </section>
 
-  <!-- MANUAL BACKUP -->
+  <!-- MANUAL STUDENT ID BACKUP -->
   <section class="card manual">
     <label for="manualStudentId">Manual student ID</label>
-
     <input
       id="manualStudentId"
       type="text"
@@ -293,8 +255,43 @@
     </button>
 
     <div class="small">
-      Use this if the QR code cannot be scanned. Make sure the correct
-      staff member and attendance action are selected first.
+      Use this if the QR code cannot be scanned. Check the staff member
+      and attendance action before recording.
+    </div>
+  </section>
+
+  <!-- NEW: SEARCH BY STUDENT NAME -->
+  <section class="card manual">
+    <label for="studentSearchInput">Search by student name</label>
+    <input
+      id="studentSearchInput"
+      type="search"
+      placeholder="Type at least 2 letters of the name"
+      autocomplete="off"
+    >
+
+    <button type="button" class="secondary" id="studentSearchBtn">
+      Search students
+    </button>
+
+    <div class="small">
+      Use this option if scanning fails or you do not know the student's ID.
+      Search results show active students from the parents sheet.
+    </div>
+
+    <div id="studentSearchResults" aria-live="polite"></div>
+
+    <div id="selectedSearchStudent" style="display:none; margin-top:14px;">
+      <div class="section-title">Selected student</div>
+      <div id="selectedSearchStudentDetails" class="student-details"></div>
+
+      <button type="button" class="secondary" id="recordSearchStudentBtn">
+        Record selected student
+      </button>
+
+      <button type="button" class="secondary" id="clearSearchStudentBtn">
+        Clear selection
+      </button>
     </div>
   </section>
 
@@ -305,11 +302,10 @@
 
 /* ==================================================
    MAMS APPS SCRIPT WEB APP
-   Keep this URL identical to your deployed web app.
 ================================================== */
 
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbzVKdtpW6umk7huOLzJ7KOLiKgUPxZS3uCYTYT_RPhqR6MZoxxrE_ZoNr249R-BPupxbg/exec";
+  "https://script.google.com/macros/s/AKfycbzVKdtpW6um7khuOLzJ7KOLiKgUPxZS3uCYTYT_RPhqR6MZoxxrE_ZoNr249R-BPupxbg/exec";
 
 let staffRecords = [];
 let selectedStaffId = "";
@@ -319,6 +315,7 @@ let scanLocked = false;
 let isRecording = false;
 let cameraStarting = false;
 let resultTimer = null;
+let selectedSearchStudentId = "";
 
 /* ==================================================
    STATUS MESSAGE
@@ -326,7 +323,6 @@ let resultTimer = null;
 
 function showStatus(message, type) {
   const status = document.getElementById("status");
-
   status.textContent = message;
   status.className = "";
 
@@ -339,26 +335,19 @@ function showStatus(message, type) {
 
 /* ==================================================
    JSONP REQUEST HELPER
-
-   Apps Script returns callbackName({...}) for
-   cross-origin requests from GitHub Pages.
 ================================================== */
 
 function jsonp(url, timeoutMs) {
   return new Promise(function(resolve, reject) {
     const callbackName =
-      "mamsCallback_" +
-      Date.now() +
-      "_" +
+      "mamsCallback_" + Date.now() + "_" +
       Math.floor(Math.random() * 1000000);
 
     const script = document.createElement("script");
     let finished = false;
 
     const timeout = setTimeout(function() {
-      finish(
-        new Error("Request timed out. Please try again.")
-      );
+      finish(new Error("Request timed out. Please try again."));
     }, timeoutMs || 15000);
 
     function cleanup() {
@@ -378,15 +367,11 @@ function jsonp(url, timeoutMs) {
 
     function finish(error, data) {
       if (finished) return;
-
       finished = true;
       cleanup();
 
-      if (error) {
-        reject(error);
-      } else {
-        resolve(data);
-      }
+      if (error) reject(error);
+      else resolve(data);
     }
 
     window[callbackName] = function(data) {
@@ -394,19 +379,13 @@ function jsonp(url, timeoutMs) {
     };
 
     script.onerror = function() {
-      finish(
-        new Error(
-          "Could not connect to the MAMS server. Check the web app URL and deployment."
-        )
-      );
+      finish(new Error(
+        "Could not connect to the MAMS server. Check the web app URL and deployment."
+      ));
     };
 
     const separator = url.includes("?") ? "&" : "?";
-
-    script.src =
-      url +
-      separator +
-      "callback=" +
+    script.src = url + separator + "callback=" +
       encodeURIComponent(callbackName);
 
     document.body.appendChild(script);
@@ -415,35 +394,20 @@ function jsonp(url, timeoutMs) {
 
 /* ==================================================
    LOAD STAFF
-
-   The server returns:
-   { ok: true, staff: [
-     { staffId, staffName, active }
-   ] }
-
-   It does not return a role field.
 ================================================== */
 
 async function loadStaff() {
   const select = document.getElementById("staffSelect");
-
   select.innerHTML = '<option value="">Loading staff...</option>';
   select.disabled = true;
-
   showStatus("Connecting to the MAMS staff list...");
 
   try {
-    const data = await jsonp(
-      WEB_APP_URL + "?scannerStaff=1",
-      20000
-    );
-
+    const data = await jsonp(WEB_APP_URL + "?scannerStaff=1", 20000);
     console.log("MAMS staff response:", data);
 
     if (!data || data.ok !== true) {
-      throw new Error(
-        (data && data.message) || "The server did not return staff data."
-      );
+      throw new Error(data?.message || "The server did not return staff data.");
     }
 
     if (!Array.isArray(data.staff)) {
@@ -451,10 +415,7 @@ async function loadStaff() {
     }
 
     staffRecords = data.staff.filter(function(staff) {
-      return staff &&
-        staff.staffId &&
-        staff.staffName &&
-        staff.active !== false;
+      return staff && staff.staffId && staff.staffName && staff.active !== false;
     });
 
     select.innerHTML = "";
@@ -466,10 +427,8 @@ async function loadStaff() {
 
     staffRecords.forEach(function(staff) {
       const option = document.createElement("option");
-
       option.value = staff.staffId;
       option.textContent = staff.staffName;
-
       select.appendChild(option);
     });
 
@@ -480,7 +439,6 @@ async function loadStaff() {
     }
 
     let savedStaff = "";
-
     try {
       savedStaff = localStorage.getItem("mamsStaffId") || "";
     } catch (error) {
@@ -494,13 +452,9 @@ async function loadStaff() {
     if (savedExists) {
       select.value = savedStaff;
       selectedStaffId = savedStaff;
-
-      showStatus(
-        "Welcome back. Choose ARRIVAL or PICKUP."
-      );
+      showStatus("Welcome back. Choose ARRIVAL or PICKUP.");
     } else {
       selectedStaffId = "";
-
       showStatus(
         "Staff list loaded (" + staffRecords.length +
         "). Select your name and choose ARRIVAL or PICKUP.",
@@ -510,10 +464,8 @@ async function loadStaff() {
 
   } catch (error) {
     console.error("MAMS staff loading error:", error);
-
     select.disabled = false;
     select.innerHTML = '<option value="">Unable to load staff</option>';
-
     showStatus(
       "Could not load staff: " + error.message +
       " Refresh the page to try again.",
@@ -526,70 +478,54 @@ async function loadStaff() {
    STAFF SELECTION
 ================================================== */
 
-document.getElementById("staffSelect").addEventListener(
-  "change",
-  function() {
-    selectedStaffId = this.value;
+document.getElementById("staffSelect").addEventListener("change", function() {
+  selectedStaffId = this.value;
 
-    try {
-      if (selectedStaffId) {
-        localStorage.setItem("mamsStaffId", selectedStaffId);
-      } else {
-        localStorage.removeItem("mamsStaffId");
-      }
-    } catch (error) {
-      console.warn("Could not save staff preference.", error);
-    }
-
-    if (selectedStaffId) {
-      const staff = staffRecords.find(function(item) {
-        return item.staffId === selectedStaffId;
-      });
-
-      showStatus(
-        (staff ? staff.staffName : "Staff member") +
-        " selected. Now choose ARRIVAL or PICKUP.",
-        "success"
-      );
-    } else {
-      showStatus("Please select your name first.");
-    }
+  try {
+    if (selectedStaffId) localStorage.setItem("mamsStaffId", selectedStaffId);
+    else localStorage.removeItem("mamsStaffId");
+  } catch (error) {
+    console.warn("Could not save staff preference.", error);
   }
-);
 
-document.getElementById("changeStaffBtn").addEventListener(
-  "click",
-  function() {
-    try {
-      localStorage.removeItem("mamsStaffId");
-    } catch (error) {
-      console.warn(error);
-    }
+  if (selectedStaffId) {
+    const staff = staffRecords.find(function(item) {
+      return item.staffId === selectedStaffId;
+    });
 
-    selectedStaffId = "";
-    document.getElementById("staffSelect").value = "";
-
-    showStatus("Please select the staff member's name.");
+    showStatus(
+      (staff ? staff.staffName : "Staff member") +
+      " selected. Now choose ARRIVAL or PICKUP.",
+      "success"
+    );
+  } else {
+    showStatus("Please select your name first.");
   }
-);
+});
+
+document.getElementById("changeStaffBtn").addEventListener("click", function() {
+  try {
+    localStorage.removeItem("mamsStaffId");
+  } catch (error) {
+    console.warn(error);
+  }
+
+  selectedStaffId = "";
+  document.getElementById("staffSelect").value = "";
+  showStatus("Please select the staff member's name.");
+});
 
 /* ==================================================
    SELECT ARRIVAL OR PICKUP
 ================================================== */
 
-document.getElementById("arrivalBtn").addEventListener(
-  "click",
-  function() {
-    selectAction("ARRIVAL");
-  }
-);
+document.getElementById("arrivalBtn").addEventListener("click", function() {
+  selectAction("ARRIVAL");
+});
 
-document.getElementById("pickupBtn").addEventListener(
-  "click",
-  function() {
-    selectAction("PICKUP");
-  }
-);
+document.getElementById("pickupBtn").addEventListener("click", function() {
+  selectAction("PICKUP");
+});
 
 function selectAction(action) {
   if (!selectedStaffId) {
@@ -600,19 +536,14 @@ function selectAction(action) {
   selectedAction = action;
 
   document.getElementById("arrivalBtn").classList.toggle(
-    "selected",
-    action === "ARRIVAL"
+    "selected", action === "ARRIVAL"
   );
 
   document.getElementById("pickupBtn").classList.toggle(
-    "selected",
-    action === "PICKUP"
+    "selected", action === "PICKUP"
   );
 
-  showStatus(
-    action + " selected. Starting the camera..."
-  );
-
+  showStatus(action + " selected. Starting the camera...");
   startScanner();
 }
 
@@ -641,9 +572,6 @@ async function stopScanner() {
 
 /* ==================================================
    CAMERA STARTUP
-
-   First try the rear camera. If that fails, try
-   choosing an available camera explicitly.
 ================================================== */
 
 async function startScanner() {
@@ -671,7 +599,6 @@ async function startScanner() {
   scanLocked = false;
 
   await stopScanner();
-
   scanner = new Html5Qrcode("reader");
 
   const config = {
@@ -689,20 +616,13 @@ async function startScanner() {
         function() {}
       );
     } catch (firstError) {
-      console.warn(
-        "Rear-camera request failed; trying available cameras.",
-        firstError
-      );
-
+      console.warn("Rear-camera request failed; trying available cameras.", firstError);
       await stopScanner();
 
       scanner = new Html5Qrcode("reader");
-
       const cameras = await Html5Qrcode.getCameras();
 
-      if (!cameras || cameras.length === 0) {
-        throw firstError;
-      }
+      if (!cameras || cameras.length === 0) throw firstError;
 
       const rearCamera = cameras.find(function(camera) {
         return /back|rear|environment|world/i.test(camera.label || "");
@@ -710,61 +630,38 @@ async function startScanner() {
 
       const chosenCamera = rearCamera || cameras[0];
 
-      await scanner.start(
-        chosenCamera.id,
-        config,
-        onScanSuccess,
-        function() {}
-      );
+      await scanner.start(chosenCamera.id, config, onScanSuccess, function() {});
     }
 
-    showStatus(
-      "Camera ready. Scan the student's QR code.",
-      "success"
-    );
+    showStatus("Camera ready. Scan the student's QR code.", "success");
 
   } catch (error) {
     console.error("Camera startup error:", error);
-
     await stopScanner();
 
-    let message =
-      error && error.message
-        ? error.message
-        : String(error);
+    let message = error?.message || String(error);
 
     if (
-      error &&
-      (
-        error.name === "NotAllowedError" ||
-        /permission denied|notallowederror/i.test(message)
-      )
+      error?.name === "NotAllowedError" ||
+      /permission denied|notallowederror/i.test(message)
     ) {
       message =
-        "Camera permission was denied. Open this GitHub Pages site in Chrome, allow camera access for the site, then refresh and try again.";
+        "Camera permission was denied. Allow camera access for this site, then refresh and try again.";
     } else if (
-      error &&
-      (
-        error.name === "NotFoundError" ||
-        /no camera|not found/i.test(message)
-      )
+      error?.name === "NotFoundError" ||
+      /no camera|not found/i.test(message)
     ) {
-      message =
-        "No camera was found. Check that your camera is connected and available.";
+      message = "No camera was found. Check that your camera is connected and available.";
     } else if (
-      error &&
-      (
-        error.name === "NotReadableError" ||
-        /could not start video source/i.test(message)
-      )
+      error?.name === "NotReadableError" ||
+      /could not start video source/i.test(message)
     ) {
-      message =
-        "The camera may be in use by another app. Close other camera apps and try again.";
+      message = "The camera may be in use by another app. Close other camera apps and try again.";
     }
 
     showStatus(
       "Camera could not start: " + message +
-      " You can still use manual Student ID entry.",
+      " You can still use manual Student ID entry or name search.",
       "error"
     );
 
@@ -773,18 +670,12 @@ async function startScanner() {
   }
 }
 
-document.getElementById("startCameraBtn").addEventListener(
-  "click",
-  startScanner
-);
+document.getElementById("startCameraBtn").addEventListener("click", startScanner);
 
-document.getElementById("stopCameraBtn").addEventListener(
-  "click",
-  async function() {
-    await stopScanner();
-    showStatus("Camera stopped. Select an action or start the camera again.");
-  }
-);
+document.getElementById("stopCameraBtn").addEventListener("click", async function() {
+  await stopScanner();
+  showStatus("Camera stopped. Select an action or start the camera again.");
+});
 
 /* ==================================================
    QR SCAN SUCCESS
@@ -794,18 +685,14 @@ async function onScanSuccess(decodedText) {
   if (scanLocked || isRecording) return;
 
   scanLocked = true;
-
   showStatus("QR detected. Recording attendance...");
-
   await stopScanner();
-
   await recordAttendance(decodedText);
 }
 
 /* ==================================================
    RECORD ATTENDANCE
-
-   Keep using the existing Apps Script endpoint.
+   Uses the existing Apps Script endpoint.
 ================================================== */
 
 async function recordAttendance(qrValue) {
@@ -814,32 +701,21 @@ async function recordAttendance(qrValue) {
   isRecording = true;
 
   try {
-    if (!selectedStaffId) {
-      throw new Error("Please select a staff member.");
-    }
+    if (!selectedStaffId) throw new Error("Please select a staff member.");
+    if (!selectedAction) throw new Error("Please choose ARRIVAL or PICKUP.");
 
-    if (!selectedAction) {
-      throw new Error("Please choose ARRIVAL or PICKUP.");
-    }
-
-    const url =
-      WEB_APP_URL +
+    const url = WEB_APP_URL +
       "?attendanceScan=1" +
       "&qrValue=" + encodeURIComponent(qrValue) +
       "&action=" + encodeURIComponent(selectedAction) +
       "&staffId=" + encodeURIComponent(selectedStaffId);
 
     console.log("Submitting attendance request.");
-
     const data = await jsonp(url, 25000);
-
     console.log("Attendance response:", data);
 
     if (!data || data.ok !== true) {
-      throw new Error(
-        (data && data.message) ||
-        "Attendance could not be recorded."
-      );
+      throw new Error(data?.message || "Attendance could not be recorded.");
     }
 
     showStudentResult(data);
@@ -847,12 +723,7 @@ async function recordAttendance(qrValue) {
 
   } catch (error) {
     console.error("Attendance recording error:", error);
-
-    showStatus(
-      "Attendance error: " + error.message,
-      "error"
-    );
-
+    showStatus("Attendance error: " + error.message, "error");
     scanLocked = false;
     return false;
 
@@ -869,20 +740,13 @@ function showStudentResult(data) {
   const student = data.student || {};
 
   document.getElementById("studentName").textContent =
-    student.studentName ||
-    student.childName ||
-    student.name ||
-    "Student";
+    student.studentName || student.childName || student.name || "Student";
 
   document.getElementById("studentId").textContent =
-    student.studentId ||
-    student.childId ||
-    "";
+    student.studentId || student.childId || "";
 
   document.getElementById("studentClass").textContent =
-    student.className ||
-    student.class ||
-    "";
+    student.className || student.class || "";
 
   document.getElementById("attendanceMessage").textContent =
     data.message || "Attendance recorded successfully.";
@@ -894,13 +758,10 @@ function showStudentResult(data) {
     "success"
   );
 
-  if (resultTimer) {
-    clearTimeout(resultTimer);
-  }
+  if (resultTimer) clearTimeout(resultTimer);
 
   resultTimer = setTimeout(async function() {
     document.getElementById("studentCard").style.display = "none";
-
     scanLocked = false;
 
     if (selectedStaffId && selectedAction) {
@@ -914,18 +775,12 @@ function showStudentResult(data) {
 ================================================== */
 
 document.getElementById("manualSubmitBtn").addEventListener(
-  "click",
-  submitManualStudent
+  "click", submitManualStudent
 );
 
-document.getElementById("manualStudentId").addEventListener(
-  "keydown",
-  function(event) {
-    if (event.key === "Enter") {
-      submitManualStudent();
-    }
-  }
-);
+document.getElementById("manualStudentId").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") submitManualStudent();
+});
 
 async function submitManualStudent() {
   const input = document.getElementById("manualStudentId");
@@ -947,13 +802,161 @@ async function submitManualStudent() {
   }
 
   showStatus("Recording attendance...");
-
   const success = await recordAttendance(value);
 
-  if (success) {
-    input.value = "";
+  if (success) input.value = "";
+}
+
+/* ==================================================
+   NEW: SEARCH STUDENTS BY NAME
+================================================== */
+
+async function searchStudents() {
+  const input = document.getElementById("studentSearchInput");
+  const results = document.getElementById("studentSearchResults");
+  const query = input.value.trim();
+
+  results.replaceChildren();
+  selectedSearchStudentId = "";
+  document.getElementById("selectedSearchStudent").style.display = "none";
+
+  if (query.length < 2) {
+    showStatus("Enter at least 2 letters of the student's name.", "error");
+    return;
+  }
+
+  if (!selectedStaffId) {
+    showStatus("Please select your name first.", "error");
+    return;
+  }
+
+  if (!selectedAction) {
+    showStatus("Choose ARRIVAL or PICKUP first.", "error");
+    return;
+  }
+
+  await stopScanner();
+  scanLocked = true;
+  showStatus("Searching for students...");
+
+  try {
+    const url = WEB_APP_URL +
+      "?studentSearch=1&q=" + encodeURIComponent(query);
+
+    const data = await jsonp(url, 20000);
+
+    if (!data || data.ok !== true) {
+      throw new Error(data?.message || "Student search failed.");
+    }
+
+    const students = Array.isArray(data.students) ? data.students : [];
+
+    if (students.length === 0) {
+      results.textContent = "No active students found. Try another spelling.";
+      showStatus("No matching students found.");
+      scanLocked = false;
+      return;
+    }
+
+    students.forEach(function(student) {
+      const item = document.createElement("div");
+      item.className = "search-result";
+
+      const name = document.createElement("div");
+      name.className = "search-result-name";
+      name.textContent = student.studentName || "Unnamed student";
+
+      const details = document.createElement("div");
+      details.className = "search-result-details";
+      details.textContent =
+        "Class: " + (student.className || "Not specified") +
+        " | ID: " + (student.studentId || "");
+
+      const selectBtn = document.createElement("button");
+      selectBtn.type = "button";
+      selectBtn.className = "secondary";
+      selectBtn.textContent = "Select this student";
+      selectBtn.style.marginTop = "10px";
+
+      selectBtn.addEventListener("click", function() {
+        if (!student.studentId) {
+          showStatus("This student has no ID. Please check the parents sheet.", "error");
+          return;
+        }
+
+        selectedSearchStudentId = student.studentId;
+
+        document.getElementById("selectedSearchStudentDetails").textContent =
+          student.studentName + " | " +
+          (student.className || "Class not specified") +
+          " | " + student.studentId;
+
+        document.getElementById("selectedSearchStudent").style.display = "block";
+
+        showStatus(
+          student.studentName +
+          " selected. Confirm the student, then record attendance.",
+          "success"
+        );
+      });
+
+      item.appendChild(name);
+      item.appendChild(details);
+      item.appendChild(selectBtn);
+      results.appendChild(item);
+    });
+
+    showStatus(
+      students.length + " matching student(s) found. Select the correct student.",
+      "success"
+    );
+
+  } catch (error) {
+    console.error("Student search error:", error);
+    showStatus("Search error: " + error.message, "error");
+    scanLocked = false;
   }
 }
+
+document.getElementById("studentSearchBtn").addEventListener(
+  "click", searchStudents
+);
+
+document.getElementById("studentSearchInput").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") searchStudents();
+});
+
+document.getElementById("recordSearchStudentBtn").addEventListener(
+  "click", async function() {
+    if (!selectedSearchStudentId) {
+      showStatus("Search for and select a student first.", "error");
+      return;
+    }
+
+    if (!selectedStaffId || !selectedAction) {
+      showStatus("Select your name and ARRIVAL or PICKUP first.", "error");
+      return;
+    }
+
+    const studentId = selectedSearchStudentId;
+    const success = await recordAttendance(studentId);
+
+    if (success) {
+      selectedSearchStudentId = "";
+      document.getElementById("studentSearchInput").value = "";
+      document.getElementById("studentSearchResults").replaceChildren();
+      document.getElementById("selectedSearchStudent").style.display = "none";
+    } else {
+      scanLocked = false;
+    }
+  }
+);
+
+document.getElementById("clearSearchStudentBtn").addEventListener("click", function() {
+  selectedSearchStudentId = "";
+  document.getElementById("selectedSearchStudent").style.display = "none";
+  showStatus("Student selection cleared.");
+});
 
 /* ==================================================
    START PAGE
