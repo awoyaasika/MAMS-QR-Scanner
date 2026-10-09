@@ -17,24 +17,77 @@
       padding: 18px;
       background: #f1f5f9;
       color: #243247;
+      position: relative;
+      isolation: isolate;
     }
 
-    .container { max-width: 550px; margin: auto; }
+    /* Faint school logo watermark */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("./IMG_6309.JPG");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: min(75vw, 420px);
+      opacity: 0.055;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 550px;
+      margin: auto;
+      position: relative;
+      z-index: 0;
+    }
 
     .header {
       background: #102b46;
       color: white;
       padding: 24px 18px;
       border-radius: 15px;
-      text-align: center;
       margin-bottom: 16px;
     }
 
-    h1 { margin: 0; font-size: 22px; line-height: 1.4; }
-    .subtitle { margin-top: 7px; color: #c8dce8; }
+    /* School logo and name */
+    .school-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .school-logo {
+      display: block;
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+      flex-shrink: 0;
+      background: white;
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .school-brand-text {
+      min-width: 0;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: #c8dce8;
+    }
 
     .card {
-      background: white;
+      background: rgba(255, 255, 255, 0.94);
       padding: 18px;
       border-radius: 14px;
       margin-bottom: 15px;
@@ -66,7 +119,10 @@
       cursor: pointer;
     }
 
-    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
 
     .action-buttons {
       display: flex;
@@ -74,9 +130,20 @@
       margin-top: 10px;
     }
 
-    .action-buttons button { flex: 1; min-width: 0; }
-    .arrival { background: #198754; color: white; }
-    .pickup { background: #0d6efd; color: white; }
+    .action-buttons button {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .arrival {
+      background: #198754;
+      color: white;
+    }
+
+    .pickup {
+      background: #0d6efd;
+      color: white;
+    }
 
     .selected {
       outline: 4px solid rgba(16, 43, 70, 0.18);
@@ -90,7 +157,11 @@
       margin-top: 10px;
     }
 
-    #reader { width: 100%; margin-top: 12px; overflow: hidden; }
+    #reader {
+      width: 100%;
+      margin-top: 12px;
+      overflow: hidden;
+    }
 
     #status {
       padding: 14px;
@@ -103,11 +174,26 @@
       overflow-wrap: anywhere;
     }
 
-    .success { background: #d1e7dd !important; color: #0f5132 !important; }
-    .error { background: #f8d7da !important; color: #842029 !important; }
+    .success {
+      background: #d1e7dd !important;
+      color: #0f5132 !important;
+    }
 
-    .student { display: none; text-align: center; }
-    .student-name { font-size: 22px; font-weight: bold; margin-bottom: 10px; }
+    .error {
+      background: #f8d7da !important;
+      color: #842029 !important;
+    }
+
+    .student {
+      display: none;
+      text-align: center;
+    }
+
+    .student-name {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
     .student-details {
       color: #475569;
@@ -115,7 +201,9 @@
       overflow-wrap: anywhere;
     }
 
-    .manual { margin-top: 15px; }
+    .manual {
+      margin-top: 15px;
+    }
 
     .small {
       color: #64748b;
@@ -124,7 +212,10 @@
       margin-top: 9px;
     }
 
-    .section-title { font-weight: bold; margin-bottom: 12px; }
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
 
     .badge {
       display: inline-block;
@@ -157,14 +248,29 @@
       overflow-wrap: anywhere;
     }
 
-    #studentSearchResults { margin-top: 8px; }
+    #studentSearchResults {
+      margin-top: 8px;
+    }
 
     @media (max-width: 380px) {
       body { padding: 10px; }
+
       .card { padding: 14px; }
-      h1 { font-size: 19px; }
+
+      .school-brand { gap: 9px; }
+
+      .school-logo {
+        width: 58px;
+        height: 58px;
+      }
+
+      h1 { font-size: 17px; }
+
       .action-buttons { gap: 8px; }
-      .action-buttons button { padding: 12px 5px; }
+
+      .action-buttons button {
+        padding: 12px 5px;
+      }
     }
   </style>
 </head>
@@ -173,9 +279,19 @@
 <div class="container">
 
   <header class="header">
-    <h1>MAMS INTERNATIONAL SCHOOL</h1>
-    <div class="subtitle">Student Arrival &amp; Pickup</div>
-    <div class="badge">Staff Attendance Scanner</div>
+    <div class="school-brand">
+      <img
+        src="./IMG_6309.JPG"
+        alt="MAMS International School logo"
+        class="school-logo"
+      >
+
+      <div class="school-brand-text">
+        <h1>MAMS INTERNATIONAL SCHOOL</h1>
+        <div class="subtitle">Student Arrival &amp; Pickup</div>
+        <div class="badge">Staff Attendance Scanner</div>
+      </div>
+    </div>
   </header>
 
   <!-- STAFF SELECTION -->
@@ -218,6 +334,7 @@
     <button type="button" class="secondary" id="startCameraBtn">
       Start camera
     </button>
+
     <button type="button" class="secondary" id="stopCameraBtn">
       Stop camera
     </button>
@@ -260,7 +377,7 @@
     </div>
   </section>
 
-  <!-- NEW: SEARCH BY STUDENT NAME -->
+  <!-- SEARCH BY STUDENT NAME -->
   <section class="card manual">
     <label for="studentSearchInput">Search by student name</label>
     <input
@@ -305,7 +422,7 @@
 ================================================== */
 
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbzVKdtpW6umk7huOLzJ7KOLiKgUPxZS3uCYTYT_RPhqR6MZoxxrE_ZoNr249R-BPupxbg/exec";
+  "https://script.google.com/macros/s/AKfycbzVKdtpW6um7khuOLzJ7KOLiKgUPxZS3uCYTYT_RPhqR6MZoxxrE_ZoNr249R-BPupxbg/exec";
 
 let staffRecords = [];
 let selectedStaffId = "";
@@ -808,7 +925,7 @@ async function submitManualStudent() {
 }
 
 /* ==================================================
-   NEW: SEARCH STUDENTS BY NAME
+   SEARCH STUDENTS BY NAME
 ================================================== */
 
 async function searchStudents() {
